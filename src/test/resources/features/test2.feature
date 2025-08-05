@@ -18,5 +18,3 @@ Feature: Question2
     Then I select "Travel Allowance" on the element with xpath "(//*[@class="oxd-select-text-input"])[1]".
     Then I select "Euro" on the element with xpath "(//*[@class="oxd-select-text-input"])[2]".
     Then I click the button "Test Login Page" with xpath "//button[text()=" Create "]" on the page.
-
-
