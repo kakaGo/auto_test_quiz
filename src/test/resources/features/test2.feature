@@ -20,4 +20,3 @@ Feature: Question2
     Then I click the button "Test Login Page" with xpath "//button[text()=" Create "]" on the page.
 
 
-
