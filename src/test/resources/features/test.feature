@@ -16,7 +16,7 @@ Feature: basic test
 
 
   Scenario Outline: 从页面返回后点击按钮跳转至页面并执行操作
-    Then I return the Previous Page.
+    When I open the page "https://practicetestautomation.com/practice/".
     Then I click the button "Test Exceptions" with xpath "//*[text()='Test Exceptions']" on the page.
 #    Then 成功跳转至页面
 #    And 页面显示标题为"<pageTitle>"
