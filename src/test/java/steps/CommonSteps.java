@@ -51,9 +51,130 @@ public class CommonSteps {
     }
 
     @When("^I execute the case \\\"(.*?)\\\" with userName \\\"(.*?)\\\" and password \\\"(.*?)\\\".$")
-    public void executeCase(String page, String xpath) {
-        WebElement buttonByXpath = driver.findElement(By.xpath(xpath));
+    public void executeCase(String caseDesc, String username ,String password) {
+        String userNameXpath = "//*[@id='username']";
+        String passwordXpath = "//*[@id='password']";
+        String submitButton = "//button[text()='Submit']";
+        //用戶名
+        WebElement userNameByXpath = driver.findElement(By.xpath(userNameXpath)); // 替换为实际XPath
+        userNameByXpath.sendKeys(username);
+        //密碼
+        WebElement passwordByXpath = driver.findElement(By.xpath(passwordXpath)); // 替换为实际XPath
+        passwordByXpath.sendKeys(password);
+        //提交
+        WebElement buttonByXpath = driver.findElement(By.xpath(submitButton));
         buttonByXpath.click();
+    }
+
+    @When("^I execute the case with operation \\\"(.*?)\\\" and check result \\\"(.*?)\\\".$")
+    public void exceptionTest(String operation, String result) {
+        WebElement buttonByXpath = null;
+        WebElement inputByXpath = null;
+        switch (result){
+            case "NoSuchElementException":
+                buttonByXpath = driver.findElement(By.xpath("//button[text()='Add']"));
+                buttonByXpath.click();
+                // 第二个输入框预期会报NoSuchElementException（根据实际情况调整选择器）
+                try {
+                    // 尝试定位第二个输入框
+                    WebElement secondInput = driver.findElement(By.xpath("//*[@id=\"row2\"]"));
+                } catch (NoSuchElementException e) {
+                    // 如果未抛出异常，手动断言失败
+                    fail("第二个输入框，出现预期的NoSuchElementException");
+                }
+                break;
+            case "ElementNotInteractableException":
+                buttonByXpath = driver.findElement(By.xpath("//button[text()='Add']"));
+                buttonByXpath.click();
+                // 等待出现
+                inputByXpath = WaitUtil.waitForElementVisible(By.xpath("//*[@id=\"row2\"]"));
+                inputByXpath.sendKeys("secondRow");
+                buttonByXpath = driver.findElement(By.name("Save"));
+                buttonByXpath.click();
+                wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 最长等待10秒
+                //WebElement targetElementLocator = Driver.findElement(By.xpath(xpath));
+                By targetElement = By.xpath("//*[text()=\"Row 2 was saved\"]");
+                WebElement element = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(targetElement)
+                );
+                assertTrue(element.isDisplayed());
+                break;
+            case "InvalidElementStateException":
+                WebElement inputBox = driver.findElement(By.xpath("//*[@id=\"row1\"]/input"));
+                // 清除输入框内容
+                inputBox.clear();
+                inputByXpath = driver.findElement(By.xpath("//*[@id=\"row1\"]/input"));
+                inputByXpath.sendKeys("change text");
+                WebElement actualElement = driver.findElement(By.xpath("//*[@id=\"row1\"]/input"));
+                String actualText = actualElement.getText();
+                assertEquals("change text",actualText);
+                break;
+            case "StaleElementReferenceException":
+                driver.navigate().refresh();
+                actualElement = driver.findElement(By.xpath("//p[@id=\"instructions\"]"));
+                actualText = actualElement.getText();
+                assertEquals("Push “Add” button to add another row",actualText);
+                buttonByXpath = driver.findElement(By.xpath("//button[text()='Add']"));
+                buttonByXpath.click();
+                By locator = By.xpath("//p[@id=\"instructions\"]");
+
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10000));
+                // 先等待元素不可见
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+                // 再检查元素是否不存在于DOM中
+                driver.findElements(locator).isEmpty();
+
+                break;
+            case "TimeoutException":
+                WebElement searchBoxLocator = null;
+                buttonByXpath = driver.findElement(By.xpath("//button[text()='Add']"));
+                buttonByXpath.click();
+                try {
+                    // 先等待3秒
+                    Thread.sleep(3000);
+                    searchBoxLocator = driver.findElement(By.xpath("//*[@id=\"row2\"]"));
+                } catch (Exception e) {
+                    System.err.println("error" + e.getMessage());
+                }
+                wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                element = wait.until(
+                        ExpectedConditions.visibilityOf(searchBoxLocator)
+                );
+                assertTrue(element.isDisplayed());
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    @When("^check expectedResult\\\"(.*?)\\\".$")
+    public void executeCase(String caseDesc) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        switch (caseDesc){
+            case "practicetestautomation.com/logged-in-successfully/":
+                String currentUrl = driver.getCurrentUrl();
+                assertTrue(currentUrl.contains(caseDesc));
+                //校验登录成功
+                String pageSource = driver.getPageSource();
+                Boolean text1Exist=pageSource.contains("Congratulations");
+                Boolean text2Exist=pageSource.contains("successfully logged in");
+                assertTrue(text1Exist|| text2Exist);
+                //退出登录
+                WebElement buttonByXpath = driver.findElement(By.xpath("//*[text()='Log out']"));
+                buttonByXpath.click();
+                break;
+            default:
+                By targetElement = By.xpath("//*[@id='error']");
+                WebElement element = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(targetElement)
+                );
+                assertTrue(element.isDisplayed());
+                WebElement actualElement = driver.findElement(By.xpath("//*[@id='error']"));
+                String actualText = actualElement.getText();
+                assertEquals(caseDesc,actualText);
+                break;
+        }
     }
 
 
@@ -364,13 +485,13 @@ public class CommonSteps {
 
     @When("^I can check the message with xpath \\\"(.*?)\\\" appear.$")
     public void checkElementAppear(String xpath) {
-//        wait = new WebDriverWait(driver, 10); // 最长等待10秒
-//        //WebElement targetElementLocator = Driver.findElement(By.xpath(xpath));
-//        By targetElement = By.xpath(xpath);
-//        WebElement element = wait.until(
-//                ExpectedConditions.visibilityOfElementLocated(targetElement)
-//        );
-//        assertTrue(element.isDisplayed());
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 最长等待10秒
+        //WebElement targetElementLocator = Driver.findElement(By.xpath(xpath));
+        By targetElement = By.xpath(xpath);
+        WebElement element = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(targetElement)
+        );
+        assertTrue(element.isDisplayed());
 
     }
 
