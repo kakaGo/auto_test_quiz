@@ -50,6 +50,15 @@ public class CommonSteps {
         buttonByXpath.click();
     }
 
+    @When("^I execute the case \\\"(.*?)\\\" with userName \\\"(.*?)\\\" and password \\\"(.*?)\\\".$")
+    public void executeCase(String page, String xpath) {
+        WebElement buttonByXpath = driver.findElement(By.xpath(xpath));
+        buttonByXpath.click();
+    }
+
+
+
+
     @When("^I check TableList \\\"(.*?)\\\" value is \\\"(.*?)\\\" with table xpath \\\"(.*?)\\\".$")
     public void clickTable(String type, String value, String xpath) {
         try {
