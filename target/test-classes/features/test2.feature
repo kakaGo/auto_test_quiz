@@ -78,10 +78,7 @@ Feature: Question2
       | Event Name     | Travel Allowance |
       | Currency       | Euro             |
       | Amount         | 888.00           |
-#      | Submitted Date | 2025-06-08       |
-
-
-
+      | Submitted Date | 2025-06-08       |
 
 
 
