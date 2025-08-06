@@ -41,6 +41,6 @@ public class TestHooks {
         if (scenario.isFailed()) {
             scenario.log("场景失败: " + scenario.getName());
         }
-//        DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }
