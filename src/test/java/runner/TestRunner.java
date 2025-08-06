@@ -13,9 +13,9 @@ import org.junit.runner.RunWith;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/report.html",
-                "json:target/cucumber-reports/report.json",
+                "json:target/cucumber-reports/report.json"
                 // 注册自定义事件监听器（需实现Plugin接口）
-                "hooks.StepEventListener"
+//                "hooks.StepEventListener"
         },
         monochrome = true
 )

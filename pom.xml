@@ -159,6 +159,21 @@
 <!--            <artifactId>selenium-devtools-v138</artifactId>-->
 <!--            <version>${selenium.version}</version>-->
 <!--        </dependency>-->
+        <!-- SLF4J 核心接口 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version> <!-- 版本可根据需求更新 -->
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Logback 实现（SLF4J 的默认推荐实现） -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version> <!-- 版本可根据需求更新 -->
+            <scope>test</scope>
+        </dependency>
 
         <!-- WebDriver Manager -->
         <dependency>
