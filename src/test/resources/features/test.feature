@@ -1,8 +1,8 @@
 Feature: basic test
 
-  Scenario Outline: 从页面点击按钮跳转至页面并执行操作
+  Scenario Outline: Page one <case>
     When I open the page "https://practicetestautomation.com/practice/".
-    Then I click the button "Test Login Page" with xpath "//*[text()='Test Login Page']" on the page.
+    Then I click the button  with xpath "//*[text()='Test Login Page']" on the page.
     #进入页面
     #Then 成功跳转至页面
     #And 页面显示标题为"<pageTitle>"
@@ -15,9 +15,9 @@ Feature: basic test
       | Test case 3: Negative password test | student       | incorrectPassword | Your password is invalid!                          |
 
 
-  Scenario Outline: 从页面返回后点击按钮跳转至页面并执行操作
+  Scenario Outline: page two <case>
     When I open the page "https://practicetestautomation.com/practice/".
-    Then I click the button "Test Exceptions" with xpath "//*[text()='Test Exceptions']" on the page.
+    Then I click the button  with xpath "//*[text()='Test Exceptions']" on the page.
 #    Then 成功跳转至页面
 #    And 页面显示标题为"<pageTitle>"
     Then I execute the case with operation "<operation>" and check result "<expectedResult>".

@@ -1,4 +1,6 @@
 package steps;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,35 +9,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
+
 import io.cucumber.java.en.When;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.DriverManager;
+import utils.MyDriverManager;
 import utils.WaitUtil;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.time.Duration;
-import java.util.List;
 import java.util.Map;
 
-/**
- * 百度搜索测试步骤定义（兼容多浏览器）
- */
-public class CommonSteps {
-    private WebDriver driver = DriverManager.getDriver();
-    private WebDriverWait wait;
 
-    public CommonSteps() {
-        // 初始化显式等待，设置10秒超时
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
+public class CommonSteps {
+    private WebDriver driver = MyDriverManager.getDriver();
+    private WebDriverWait wait;
 
 
     @When("^I open the page \\\"(.*?)\\\".$")
@@ -44,8 +31,8 @@ public class CommonSteps {
 
     }
 
-    @When("^I click the button \\\"(.*?)\\\" with xpath \\\"(.*?)\\\" on the page.$")
-    public void clickButton(String page, String xpath) {
+    @When("^I click the button  with xpath \\\"(.*?)\\\" on the page.$")
+    public void clickButton(String xpath) {
         WebElement buttonByXpath = driver.findElement(By.xpath(xpath));
         buttonByXpath.click();
     }
@@ -523,7 +510,7 @@ public class CommonSteps {
     @When("^I wait for \\\"(.*?)\\\" seconds.$")
     public void waitMinute(String time) {
         try {
-            Thread.sleep(Long.parseLong(time));
+            Thread.sleep(Long.parseLong(time)*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -556,6 +543,47 @@ public class CommonSteps {
         }
 
     }
+    @Given("用户打开百度首页")
+    public void user_opens_baidu_homepage() {
+        driver.get("https://www.baidu.com");
+        // 验证页面标题
+        assertTrue(driver.getTitle().contains("百度"));
+    }
 
+    @When("用户在搜索框输入{string}")
+    public void user_enters_in_search_box(String searchText) {
+        WebElement searchBox = driver.findElement(By.id("chat-textarea"));
+        searchBox.sendKeys(searchText);
+    }
+
+    @When("用户点击搜索按钮")
+    public void user_clicks_search_button() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        WebElement searchButton = driver.findElement(By.id("chat-submit-button"));
+        searchButton.click();
+
+        // 等待搜索结果加载
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Then("搜索结果页面标题应包含{string}")
+    public void search_result_page_title_should_contain(String expectedText) {
+        assertTrue("页面标题不包含预期文本: " + expectedText,
+                driver.getTitle().contains(expectedText));
+    }
+
+    @Then("这是一个失败的步骤示例")
+    public void this_is_a_failed_step_example() {
+        // 故意失败的断言，用于测试失败场景
+        assertTrue("这是一个故意失败的示例", false);
+    }
 
 }

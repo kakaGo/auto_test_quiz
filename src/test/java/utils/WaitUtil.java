@@ -45,4 +45,5 @@ public class WaitUtil {
     public static WebElement waitForElementPresent(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
 }
