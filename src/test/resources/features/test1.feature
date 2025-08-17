@@ -1,11 +1,8 @@
-Feature: basic test
+Feature: Basic Test-Selenium
 
-  Scenario Outline: Page one <case>
+  Scenario Outline: Test Login Page- <case>
     When I open the page "https://practicetestautomation.com/practice/".
     Then I click the button  with xpath "//*[text()='Test Login Page']" on the page.
-    #进入页面
-    #Then 成功跳转至页面
-    #And 页面显示标题为"<pageTitle>"
     When I execute the case "<case>" with userName "<username>" and password "<password>".
     Then check expectedResult"<expectedResult>".
     Examples:
@@ -15,11 +12,9 @@ Feature: basic test
       | Test case 3: Negative password test | student       | incorrectPassword | Your password is invalid!                          |
 
 
-  Scenario Outline: page two <case>
+  Scenario Outline: Test Exceptions- <case>
     When I open the page "https://practicetestautomation.com/practice/".
     Then I click the button  with xpath "//*[text()='Test Exceptions']" on the page.
-#    Then 成功跳转至页面
-#    And 页面显示标题为"<pageTitle>"
     Then I execute the case with operation "<operation>" and check result "<expectedResult>".
     Examples:
       | case                                         | operation                       | expectedResult                  |

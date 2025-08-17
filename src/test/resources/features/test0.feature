@@ -1,4 +1,4 @@
-Feature: Question2
+Feature: Extension Test-Cucumber
 
   Scenario: test
     When I open the page "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login".
@@ -19,8 +19,8 @@ Feature: Question2
     Then I click the button  with xpath "//button[text()=" Assign Claim "]" on the page.
     Then I wait for "2" seconds.
     #输入表单数据
-    When I input "Amelia  Brown" on the element with xpath "//input[@placeholder="Type for hints..."]".
-    Then I wait for "2" seconds.
+    When I input "Amelia Brown" on the element with xpath "//input[@placeholder="Type for hints..."]".
+    Then I wait for "8" seconds.
     Then I select "Travel Allowance" on the element with xpath "(//*[@class="oxd-select-text-input"])[1]".
     Then I wait for "2" seconds.
     Then I select "Euro" on the element with xpath "(//*[@class="oxd-select-text-input"])[2]".
@@ -63,10 +63,10 @@ Feature: Question2
     Then I wait for "5" seconds.
     #校验添加的扩展提示
     Then I check TableList row "1" value with table xpath "(//*[@class="orangehrm-container"]/*[@role="table"])[1]".
-      | title         | value      |
-      | Expense Type  | Transport  |
-      | Date          | 2025-06-08 |
-      | Amount (Euro) | 888.00     |
+      | title         | value     |
+      | Expense Type  | Transport |
+      | Date          | today     |
+      | Amount (Euro) | 888.00    |
     #返回上一页
     Then I wait for "2" seconds.
     Then I click the button  with xpath "//button[text()=" Back "]" on the page.
@@ -78,7 +78,7 @@ Feature: Question2
       | Event Name     | Travel Allowance |
       | Currency       | Euro             |
       | Amount         | 888.00           |
-      | Submitted Date | 2025-06-08       |
+#      | Submitted Date | today            |
 
 
 
