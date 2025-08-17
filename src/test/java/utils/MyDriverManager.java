@@ -1,5 +1,6 @@
 package utils;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,8 +20,8 @@ public class MyDriverManager {
             switch (browserType){
                 case EDGE_IE_MODE:
                     //TODO 上传代码把注释解开，第二行注释掉，自动获取驱动
-//                    WebDriverManager.iedriver().setup();
-                    System.setProperty("webdriver.ie.driver", ConfigReader.getIEDriverPath());
+                    WebDriverManager.iedriver().setup();
+//                    System.setProperty("webdriver.ie.driver", ConfigReader.getIEDriverPath());
                     InternetExplorerOptions ieOptions = new InternetExplorerOptions();
                     //启用 Edge Chromium 内核（IE Mode 关键开关）
                     ieOptions.setCapability("ie.edgechromium", true);
@@ -36,8 +37,8 @@ public class MyDriverManager {
                 case CHROME:
                 default:
                     //TODO 上传代码把注释解开，第二行注释掉，自动获取驱动
-//        WebDriverManager.chromedriver().setup();
-                    System.setProperty("webdriver.chrome.driver", ConfigReader.getChromeDriverPath());
+                    WebDriverManager.chromedriver().setup();
+//                    System.setProperty("webdriver.chrome.driver", ConfigReader.getChromeDriverPath());
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--start-maximized");
                     driver = new ChromeDriver(options);
