@@ -31,9 +31,9 @@ public class Hooks {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            driver.quit();
-            CucumberListener.setDriver(null);
             driver = null;
+            MyDriverManager.quitDriver();
+            CucumberListener.setDriver(null);
         }
     }
 }

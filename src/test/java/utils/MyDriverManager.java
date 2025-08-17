@@ -56,6 +56,7 @@ public class MyDriverManager {
     public static void quitDriver() {
         if (driver != null) {
             driver.quit();
+            driver=null;
         }
     }
 
