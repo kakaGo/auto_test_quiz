@@ -22,7 +22,6 @@ public class CommonSteps {
     @When("^I open the page \\\"(.*?)\\\".$")
     public void OpenPage(String url) {
         driver.get(url);
-
     }
 
 
